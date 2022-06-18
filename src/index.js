@@ -1,44 +1,83 @@
 import "./styles.css";
 
+// incomplete list
+const incompleteList = document.getElementById("incomplete-list");
+
+// complete list
+const completeList = document.getElementById("complete-list");
+
 const onClickAdd = () => {
-  // input text
+  // get value user input text.
   const inputText = document.getElementById("add-text").value;
   document.getElementById("add-text").value = "";
 
-  // imcomplete list
-  const imcompleteList = document.getElementById("imcomplete-list");
+  // create incomplete-row.
+  const li = document.createElement("li");
 
-  // div
+  // create incomplete-element.
   const div = document.createElement("div");
   div.className = "list-row";
 
-  // li
-  const li = document.createElement("li");
-  li.innerText = inputText;
+  // create incomplete-paragraph.
+  const p = document.createElement("p");
+  p.innerText = inputText;
 
-  // button(complete)
+  // create complete-button.
   const completeButton = document.createElement("button");
   completeButton.innerText = "完了";
   completeButton.addEventListener("click", () => {
-    alert("completed");
+    // delete incomplete-element from incomplete-list.
+    deleteFromimcompleteList(completeButton.closest("li"));
+
+    // get element add to completed-list.
+    const addTarget = completeButton.closest("li");
+
+    // get todo's name
+    const text = addTarget.firstElementChild.firstElementChild.innerText;
+
+    addTarget.textContent = null;
+
+    // create completed-element.
+    const div = document.createElement("div");
+    div.className = "list-row";
+
+    // create completed-paragraph.
+    const p = document.createElement("p");
+    p.innerText = text;
+
+    // create back-button
+    const backButton = document.createElement("button");
+    backButton.innerText = "戻す";
+
+    // set some element to completed element.
+    div.appendChild(p);
+    div.appendChild(backButton);
+    addTarget.appendChild(div);
+
+    // add complete-element to completed-list.
+    completeList.appendChild(addTarget);
   });
 
-  // button(delete)
+  // create delete-button
   const deleteButton = document.createElement("button");
   deleteButton.innerText = "削除";
   deleteButton.addEventListener("click", () => {
-    // delete task from imcomplete list.
-    const deleteTarget = deleteButton.parentNode;
-    imcompleteList.removeChild(deleteTarget);
+    deleteFromimcompleteList(deleteButton.closest("li"));
   });
 
-  // divタグの子要素に各要素を設定
-  div.appendChild(li);
+  // set some element to incomplete element.
+  div.appendChild(p);
   div.appendChild(completeButton);
   div.appendChild(deleteButton);
+  li.appendChild(div);
 
-  // 未完了リストに追加
-  imcompleteList.appendChild(div);
+  // add incomplete-element to incomplete-list.
+  incompleteList.appendChild(li);
+};
+
+// delete target element from incomplete list.
+const deleteFromimcompleteList = (target) => {
+  incompleteList.removeChild(target);
 };
 
 document
