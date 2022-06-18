@@ -6,7 +6,7 @@ const onClickAdd = () => {
   document.getElementById("add-text").value = "";
 
   // imcomplete list
-  const imcomleteList = document.getElementById("imcomplete-list");
+  const imcompleteList = document.getElementById("imcomplete-list");
 
   // div
   const div = document.createElement("div");
@@ -27,7 +27,9 @@ const onClickAdd = () => {
   const deleteButton = document.createElement("button");
   deleteButton.innerText = "削除";
   deleteButton.addEventListener("click", () => {
-    alert("deleted");
+    // delete task from imcomplete list.
+    const deleteTarget = deleteButton.parentNode;
+    imcompleteList.removeChild(deleteTarget);
   });
 
   // divタグの子要素に各要素を設定
@@ -36,7 +38,7 @@ const onClickAdd = () => {
   div.appendChild(deleteButton);
 
   // 未完了リストに追加
-  imcomleteList.appendChild(div);
+  imcompleteList.appendChild(div);
 };
 
 document
