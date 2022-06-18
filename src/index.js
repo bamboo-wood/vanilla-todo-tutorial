@@ -4,13 +4,29 @@ import "./styles.css";
 const incompleteList = document.getElementById("incomplete-list");
 
 // complete list
-const completeList = document.getElementById("complete-list");
+const completedList = document.getElementById("complete-list");
 
 const onClickAdd = () => {
   // get value user input text.
   const inputText = document.getElementById("add-text").value;
   document.getElementById("add-text").value = "";
 
+  // add the element to incomplete-list.
+  createIncompleteList(inputText);
+};
+
+// delete target element from incomplete list.
+const deleteFromincompleteList = (target) => {
+  incompleteList.removeChild(target);
+};
+
+// delete target element from completed list.
+const deleteFromcompletedList = (target) => {
+  completedList.removeChild(target);
+};
+
+// add the element to incomplete-list.
+const createIncompleteList = (text) => {
   // create incomplete-row.
   const li = document.createElement("li");
 
@@ -20,14 +36,14 @@ const onClickAdd = () => {
 
   // create incomplete-paragraph.
   const p = document.createElement("p");
-  p.innerText = inputText;
+  p.innerText = text;
 
   // create complete-button.
   const completeButton = document.createElement("button");
   completeButton.innerText = "完了";
   completeButton.addEventListener("click", () => {
     // delete incomplete-element from incomplete-list.
-    deleteFromimcompleteList(completeButton.closest("li"));
+    deleteFromincompleteList(completeButton.closest("li"));
 
     // get element add to completed-list.
     const addTarget = completeButton.closest("li");
@@ -45,9 +61,19 @@ const onClickAdd = () => {
     const p = document.createElement("p");
     p.innerText = text;
 
-    // create back-button
+    // create back-button.
     const backButton = document.createElement("button");
     backButton.innerText = "戻す";
+    backButton.addEventListener("click", () => {
+      // get back element.
+      const backTarget = backButton.closest("li");
+      // delete back-element from completed-list.
+      deleteFromcompletedList(backTarget);
+      // get title back element.
+      const text = backTarget.firstElementChild.firstElementChild.innerText;
+      // add back-element to incomplete-list.
+      createIncompleteList(text);
+    });
 
     // set some element to completed element.
     div.appendChild(p);
@@ -55,14 +81,14 @@ const onClickAdd = () => {
     addTarget.appendChild(div);
 
     // add complete-element to completed-list.
-    completeList.appendChild(addTarget);
+    completedList.appendChild(addTarget);
   });
 
   // create delete-button
   const deleteButton = document.createElement("button");
   deleteButton.innerText = "削除";
   deleteButton.addEventListener("click", () => {
-    deleteFromimcompleteList(deleteButton.closest("li"));
+    deleteFromincompleteList(deleteButton.closest("li"));
   });
 
   // set some element to incomplete element.
@@ -73,11 +99,6 @@ const onClickAdd = () => {
 
   // add incomplete-element to incomplete-list.
   incompleteList.appendChild(li);
-};
-
-// delete target element from incomplete list.
-const deleteFromimcompleteList = (target) => {
-  incompleteList.removeChild(target);
 };
 
 document
